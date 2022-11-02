@@ -1,4 +1,4 @@
-FROM node:17-slim
+FROM almalinux:latest
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 
 # Install dependencies.
-RUN yarn install
+#RUN yarn install
 
 # Copy local code to the container image.
 COPY . .
