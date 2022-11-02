@@ -1,0 +1,628 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Wsl Google Cloud Run API",
+        "description": "Wsl Cloud Run API in NodeJs using TypeScript",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Development Environment"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Authorization",
+            "description": ""
+        },
+       
+        {
+            "name": "Registration",
+            "description": ""
+        },
+        {
+            "name": "SocialLogin",
+            "description": ""
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth/authorize": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "description": "\n**Purspose:** This API is used to get the Authentication Code based on the unique Clinet ID, which will be used to access to the Worksite Labs web portal by authorised clients of WSL for using its features of lab testing automation. <br> **API Type:** Private. <br> **Output:** Authentication Code. <br>  __Use-Case Scenario:__ While SolveHealth try to access WSL portal, the client id will be sent for authentication code generation, this AuthCode will now enable the access to WSL portal. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use.",
+                "parameters": [
+                    {
+                        "name": "x-client-id",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-client-id": {
+                                    "type": "string",
+                                    "example": "XXXXXXXXXXXXXXXXX"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the Auth Code."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/auth/token": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "description": "**Purspose:** This API is used to get the Authentication Token based on the unique Clinet ID, which will be used to access to the Worksite Labs web portal by authorised clients of WSL for using its features of lab testing automation. <br> **API Type:** Private <br> **Output:** Authentication Token <br> **Use-Case Scenario:** while SolveHealth customers want to access WSL portal through 'Guest Login' feature, this api will be called by passing the client id and authentication code (received from previous API) will be generated using which the WSL portal shall be accessed by the client SolveHealth. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use",
+                "parameters": [
+                    {
+                        "name": "x-client-id",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-client-id": {
+                                    "type": "string",
+                                    "example": "XXXXXXXXXXXXXXXXX"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "x-auth-code",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-auth-code": {
+                                    "type": "string",
+                                    "example": "XXXXXXXXXXXXXXXXX"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the Access token."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "description": "**Purspose:** This API is used to get the Authentication Token based on the unique Clinet ID, which will be used to access to the Worksite Labs web portal by authorised clients of WSL for using its features of lab testing automation. <br> **API Type:** Private <br> **Output:** Authentication Token <br> **Use-Case Scenario example:** while SolveHealth customers want to access WSL portal through 'Sign-In' feature, this api will be called by passing the customer emaId and password and will generate the Authentication Token using which the WSL portal shall be accessed by the customers of SolveHealth.\n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "vijayanandr2000@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Gokul@123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the Access token."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+       
+        "/registration/checkemailaddress/{email}": {
+            "get": {
+                "tags": [
+                    "Registration"
+                ],
+                "description": "**Purspose:** This API will validate & confirm if the user email id does not exist already & available for new registration. <br> **API Type:** Public <br> **Outcome:** Confimation on the availabilty of emailID entered by the user is avilable for new registration <br> **Use-Case:** While the user tries to sign-up in the WSL portal. The email iD entered by the user needs to be validated if it already exists or not to avoid duplicate user registration. To confirm the same, this API will be called to confirm the avilability of email iD for registration. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use.",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "vijayanandr2000@gmail.com"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email exist"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/registration/verifyemails": {
+            "post": {
+                "tags": [
+                    "Registration"
+                ],
+                "description": "**Purspose:** This API is used to verify the emailID used for registration pupose is valid a valid emailID or not. <br> **API Type:** Public. <br> **Outcome:** Verification of valid emailID address provided by the user. <br>  **Use-Case:** When the user registers in the WSL portal, the emailID entered by user is verified email address or not to ensure invalid emailID does not get registed with the portal. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use. ",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "number",
+                                        "example": 13
+                                    },
+                                    "isChangeEmail": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verified SuccessFully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/registration/initiateotp": {
+            "post": {
+                "tags": [
+                    "Registration"
+                ],
+                "description": "**Purspose:** This API is used to authenticate the user by sending OTP to registered emaiID/mobile no. to ensure valid information of user is registered with WSL. <br> **API Type:** Public <br> **Outcome:** Validation of registered emailID/phone through OTP authentication. <br> **Use-Case:** While the user register in the WSL portal, the emailID & phone provided by the user is validated using with a OTP to ensure the user has registered with valid details. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use.",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "vijayanandr2000@gmail.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+918754833291"
+                                    },
+                                    "isUserOTP": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "validationMethod": {
+                                        "type": "string",
+                                        "example": "email"
+                                    },
+                                    "isChangeEmail": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verified SuccessFully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/registration/validateotp": {
+            "post": {
+                "tags": [
+                    "Registration"
+                ],
+                "description": "**Purspose:** This API is used to verify the OTP entered by the user in the portal matched with the portal generated OTP to authenticate the user to access the WSL portal. <br> **API Type:** Public <br> **Outcome:** Verification of the OTP entered by the user <br> **Use-Case:** When the user verifies himself by providing an OTP sent to his registered mailID/Phone, this API is called to verify the OTP entered by user to ensure access to WSL site is provided to right user with valid contact infomration. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use. ",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "vijayanandr2000@gmail.com"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+918754833291"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verified SuccessFully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        
+        "/sociallogin/signup": {
+            "post": {
+                "tags": [
+                    "SocialLogin"
+                ],
+                "description": "**Purspose:** This API is used while the user tries to Signup using his/her social login. <br> **API Type:** Public. <br> **Outcome:** Successful signup by user using the Social account. <br> **Use-Case:** When the user looks for alternate options to Signup to WSL portal, the user gets an option to sign-up using the Social Login where the details of social login are captured & updated in the collection to track the user & enable the LogIn using social login. \n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use.",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Email": {
+                                        "type": "string",
+                                        "example": "testadd@gmail.com"
+                                    },
+                                    "Address1": {
+                                        "type": "string",
+                                        "example": "dark street , chennai"
+                                    },
+                                    "Address2": {
+                                        "type": "string",
+                                        "example": "North street ,chennai"
+                                    },
+                                    "City": {
+                                        "type": "string",
+                                        "example": "chennai"
+                                    },
+                                    "County": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "State": {
+                                        "type": "string",
+                                        "example": "Chennai"
+                                    },
+                                    "Country": {
+                                        "type": "string",
+                                        "example": "US"
+                                    },
+                                    "Zipcode": {
+                                        "type": "string",
+                                        "example": "532109"
+                                    },
+                                    "BirthDate": {
+                                        "type": "string",
+                                        "example": "10/09/1998"
+                                    },
+                                    "Ethnicity": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "FirstName": {
+                                        "type": "string",
+                                        "example": "jone"
+                                    },
+                                    "MiddleName": {
+                                        "type": "string",
+                                        "example": "Andre"
+                                    },
+                                    "LastName": {
+                                        "type": "string",
+                                        "example": "Gonzalez Perez"
+                                    },
+                                    "HasMinors": {
+                                        "type": "number",
+                                        "examole": 1
+                                    },
+                                    "IsINTNameFormat": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "IsNotHavePermanentAddress": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "IsVerified": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "PassportCountry": {
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "PassportNo": {
+                                        "type": "string",
+                                        "example": "son"
+                                    },
+                                    "Phone": {
+                                        "type": "string",
+                                        "example": "9080648630"
+                                    },
+                                    "Race": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "Sex": {
+                                        "type": "string",
+                                        "example": "Male"
+                                    },
+                                    "minor": {
+                                        "type": "array",
+                                        "example": [
+                                            {
+                                                "Email": "john@gmail.com",
+                                                "BirthDate": "10/09/1998",
+                                                "FirstName": "Abdrew",
+                                                "MiddleName": "Andre",
+                                                "LastName": "Gonzalez Perez",
+                                                "PassportCountry": "USA",
+                                                "Relationship": "son",
+                                                "SchoolName": "abc hr sec school",
+                                                "StudentId": "abc123",
+                                                "Notification": 1,
+                                                "Sex": "Male"
+                                            }
+                                        ]
+                                    },
+                                    "insurence": {
+                                        "type": "array",
+                                        "example": [
+                                            {
+                                                "Email": "john@gmail.com",
+                                                "FrontCard": "https://firebasestorage.googleapis.com/v0/b/wsl-multitenancy-dev-ac13b.appspot.com/o/WLABS_KO.png?alt=media&token=d4573843-63c6-4d84-8f9f-7b5b07f2c81a",
+                                                "BackCard": "https://firebasestorage.googleapis.com/v0/b/wsl-multitenancy-dev-ac13b.appspot.com/o/WLABS_KO.png?alt=media&token=d4573843-63c6-4d84-8f9f-7b5b07f2c81a"
+                                            }
+                                        ]
+                                    },
+                                    "uninsured": {
+                                        "type": "array",
+                                        "example": [
+                                            {
+                                                "Email": "john@gmail.com",
+                                                "FrontCard": "https://firebasestorage.googleapis.com/v0/b/wsl-multitenancy-dev-ac13b.appspot.com/o/WLABS_KO.png?alt=media&token=d4573843-63c6-4d84-8f9f-7b5b07f2c81a",
+                                                "BackCard": "https://firebasestorage.googleapis.com/v0/b/wsl-multitenancy-dev-ac13b.appspot.com/o/WLABS_KO.png?alt=media&token=d4573843-63c6-4d84-8f9f-7b5b07f2c81a"
+                                            }
+                                        ]
+                                    },
+                                    "creditcard": {
+                                        "type": "array",
+                                        "example": [
+                                            {
+                                                "Email": "john@gmail.com",
+                                                "CardName": "visa",
+                                                "PaymentMethod": 2,
+                                                "CardNumber": "312345678909876"
+                                            }
+                                        ]
+                                    },
+                                    "socialLoginDetails": {
+                                        "type": "object",
+                                        "example": {
+                                            "email": "testadd@gmail.com",
+                                            "id": "12345678902345",
+                                            "image": "https://img.png",
+                                            "name": "John Doe",
+                                            "provider": "facebook",
+                                            "signupType": "facebook"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns User Details"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        },
+        "/sociallogin/signin": {
+            "post": {
+                "tags": [
+                    "SocialLogin"
+                ],
+                "description": "**Purspose:** This API is used while the user tries to SignIn using his/her social login. <br> **API Type:** Public. <br> **Outcome:** Successful signin by user using the Social Login. <br> **Use-Case:** When the user has signedUp using the social account, the user then be enabled to SignIn using the social account after signing up in the WSL. The same can be achieved through this API.\n 1. For login flow logged accesstoken need to use. \n 2. For Not Registered flow auth/token need to use.",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "properties": {
+                                "x-access-token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "socialLoginDetails": {
+                                        "type": "object",
+                                        "example": {
+                                            "email": "testadd@gmail.com",
+                                            "id": "12345678902345",
+                                            "image": "https://img.png",
+                                            "name": "John Doe",
+                                            "provider": "facebook",
+                                            "signupType": "facebook"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns User Details"
+                    },
+                    "401": {
+                        "description": "Unauthorized access to API"
+                    }
+                }
+            }
+        }
+    }
+}

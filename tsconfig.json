@@ -1,0 +1,48 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "lib": [
+            "esnext","dom"
+        ],
+        "types": ["node", "jest"],
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "target": "ES2017",
+        "noImplicitReturns": false,
+        "noUnusedLocals": true,
+        "pretty": true,
+        "strict": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "sourceRoot": "/",
+        "outDir": "build",
+        "skipLibCheck": true,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "declaration": true,
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "../*": [
+                "src/*"
+            ],
+            "@utils/*": [
+                "src/utils/*"
+            ],
+            "@test/*": [
+                "test/*"
+            ],
+            "@types": [
+                "src/types"
+            ]
+        },
+    },
+    "include": [
+        "src/**/*",
+        "index.ts"
+    ],
+    "exclude": [
+        "*.test.ts"
+    ],
+    "compileOnSave": false
+}

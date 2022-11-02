@@ -1,0 +1,31 @@
+---
+extends:
+  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaVersion: 8
+  requireConfigFile: false
+  sourceType: module
+  ecmaFeatures:
+    globalReturn: false
+    impliedStrict: true
+    experimentalObjectRestSpread: true
+    jsx: true
+
+rules:
+  prefer-const: 0
+  endOfLine: 0
+  no-var: 0
+  no-extra-boolean-cast: 0
+  no-irregular-whitespace: 0
+  no-empty: 0
+  no-duplicate-case: 0
+  no-async-promise-executor: 0
+  '@typescript-eslint/explicit-function-return-type': 0
+  '@typescript-eslint/no-var-requires': 0
+  '@typescript-eslint/no-inferrable-types': 0
+  '@typescript-eslint/no-explicit-any': 0
+  '@typescript-eslint/ban-types': 0
+  '@typescript-eslint/no-extra-semi': 0
+  
