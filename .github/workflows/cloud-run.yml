@@ -21,8 +21,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
      - run: npm i
-     - run: npm install -g eslint
-     - run: eslint . --ext .js,.jsx,.ts,.tsx
      - name: Build
        run: npm run build
        env:
