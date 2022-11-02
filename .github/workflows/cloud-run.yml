@@ -2,7 +2,7 @@ name: Build and Deploy Microservice APIs
 
 on:
   push:
-    branches: b
+    branches: master
 
 jobs:
    test:
