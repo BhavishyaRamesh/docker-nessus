@@ -21,11 +21,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
      - run: npm i
-     - name: Build
-       run: npm run build
-       env:
-          CI: false
-     #- run: npm test integration
      
      - uses: actions/checkout@v3
 
