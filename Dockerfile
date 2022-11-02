@@ -1,4 +1,4 @@
-FROM almalinux:latest
+FROM node:17-slim
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
